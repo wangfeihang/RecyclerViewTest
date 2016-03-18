@@ -1,48 +1,71 @@
 package com.example.administrator.recyclerviewtest;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.administrator.recyclerviewtest.MyAdapter.OnItemClickListener;
+import com.example.administrator.recyclerviewtest.MyAdapter.OnItemLongClickListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] myDataset;
-
+    private ArrayList<HashMap> al;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //初始化数据
+        al=new ArrayList<HashMap>();
+        for(int i=0;i<50;i++)
+        {
+            HashMap<String , String> map = new HashMap<String , String>();
+            map.put("1" , i+"");
+            map.put("2" , i+"");
+            map.put("3" , i+"");
+            map.put("4" , i+"");
+            al.add(map);
+        }
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
+    //    mAdapter = new MyAdapter(al,this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mAdapter = new MyAdapter(al,this,new OnItemClickListener() {
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+            public void onClick(View v) {
+                TextView info = (TextView) v.findViewById(R.id.tv1);
+                Toast.makeText(getApplicationContext(), "单击" + info.getText(), Toast.LENGTH_LONG).show();
+            }
+        },new OnItemLongClickListener() {
+
+            @Override
+            public void onLongClick(View v) {
+                TextView info = (TextView) v.findViewById(R.id.tv1);
+                Toast.makeText(getApplicationContext(), "长按"+info.getText(), Toast.LENGTH_LONG).show();
+
             }
         });
-    }
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new ItemDivider(this,
+                ItemDivider.VERTICAL_LIST));
+
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
