@@ -4,29 +4,30 @@
 
 
     <TextView
-        android:id="@+id/tv1"
-        android:layout_marginLeft="50px"
-        android:layout_marginTop="30px"
+        android:id="@+id/tv_date"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <TextView
-        android:id="@+id/tv2"
-        android:layout_below="@+id/tv1"
-        android:layout_alignLeft="@+id/tv1"
-        android:layout_marginTop="10px"
+        android:id="@+id/tv_weather"
+        android:layout_below="@+id/tv_date"
+        android:layout_alignLeft="@+id/tv_date"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <TextView
-        android:id="@+id/tv3"
-        android:layout_below="@+id/tv2"
-        android:layout_alignLeft="@+id/tv2"
-        android:layout_marginTop="10px"
+        android:id="@+id/tv_temp"
+        android:layout_below="@+id/tv_weather"
+        android:layout_alignLeft="@+id/tv_weather"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -34,22 +35,21 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/tv4"
+        android:id="@+id/tv_WD"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50px"
-        android:layout_alignTop="@+id/tv1"
+        android:layout_marginRight="50dp"
+        android:layout_alignTop="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="10"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <ImageButton
-        android:id="@+id/ib1"
-        android:layout_height="50px"
-        android:layout_width="50px"
-        android:layout_marginBottom="30px"
-        android:layout_alignTop="@+id/tv3"
-        android:layout_alignLeft="@id/tv4"
+        android:id="@+id/ib_star"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:layout_alignTop="@+id/tv_temp"
+        android:layout_alignLeft="@id/tv_WD"
         android:background="@drawable/star"
         />
 </RelativeLayout>

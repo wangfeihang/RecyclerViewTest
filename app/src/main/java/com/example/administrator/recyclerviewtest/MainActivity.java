@@ -1,6 +1,9 @@
 package com.example.administrator.recyclerviewtest;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,33 +13,27 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.recyclerviewtest.MyAdapter.OnItemClickListener;
-import com.example.administrator.recyclerviewtest.MyAdapter.OnItemLongClickListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    //private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<HashMap> al;
-
+    private Context mcontext =this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //初始化数据
-        al=new ArrayList<HashMap>();
-        for(int i=0;i<50;i++)
-        {
-            HashMap<String , String> map = new HashMap<String , String>();
-            map.put("1" , i+"");
-            map.put("2" , i+"");
-            map.put("3" , i+"");
-            map.put("4" , i+"");
-            al.add(map);
-        }
 
+
+        String httpUrl = "http://apis.baidu.com/apistore/weatherservice/weather";
+        String httpArg = "citypinyin=beijing";
+      //  String response= Connection.request(httpUrl, httpArg);
+        al=new ArrayList<HashMap>();
+        new Thread(runnable).start();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -44,28 +41,65 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
     //    mAdapter = new MyAdapter(al,this);
 
-        mAdapter = new MyAdapter(al,this,new OnItemClickListener() {
 
-            @Override
-
-            public void onClick(View v) {
-                TextView info = (TextView) v.findViewById(R.id.tv1);
-                Toast.makeText(getApplicationContext(), "单击" + info.getText(), Toast.LENGTH_LONG).show();
-            }
-        },new OnItemLongClickListener() {
-
-            @Override
-            public void onLongClick(View v) {
-                TextView info = (TextView) v.findViewById(R.id.tv1);
-                Toast.makeText(getApplicationContext(), "长按"+info.getText(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new ItemDivider(this,
                 ItemDivider.VERTICAL_LIST));
 
 }
+
+
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+            String val = data.getString("value");
+            for(int i=0;i<50;i++)
+            {
+                HashMap<String , String> map = new HashMap<String , String>();
+                map.put("date" , i+val+"date");
+                map.put("weather" , i+"weather");
+                map.put("temp" , i+"temp");
+                map.put("WD" , i+"WD");
+                al.add(map);
+            }
+            RecyclerView.Adapter mAdapter = new MyAdapter(al,mcontext,new MyAdapter.OnItemClickListener() {
+
+                @Override
+
+                public void onClick(View v) {
+                    TextView info = (TextView) v.findViewById(R.id.tv_date);
+                    Toast.makeText(getApplicationContext(), "单击" + info.getText(), Toast.LENGTH_LONG).show();
+                }
+            },new MyAdapter.OnItemLongClickListener() {
+
+                @Override
+                public void onLongClick(View v) {
+                    TextView info = (TextView) v.findViewById(R.id.tv_date);
+                    Toast.makeText(getApplicationContext(), "长按"+info.getText(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+
+        }
+    };
+
+
+    Runnable runnable = new Runnable(){
+        @Override
+        public void run() {
+            // TODO: http request.
+            Message msg = new Message();
+            Bundle data = new Bundle();
+            String response= Connection.request("", "");
+            data.putString("value",response);
+            msg.setData(data);
+            handler.sendMessage(msg);
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
