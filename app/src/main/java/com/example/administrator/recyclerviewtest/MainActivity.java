@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     //private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<HashMap> al;
+    private ArrayList<HashMap> weatherList;
+    private String httpUrl = "http://apis.baidu.com/apistore/weatherservice/weather";
+    private String httpArg = "citypinyin=beijing";
     private Context mcontext =this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,9 @@ public class MainActivity extends AppCompatActivity {
         //初始化数据
 
 
-        String httpUrl = "http://apis.baidu.com/apistore/weatherservice/weather";
-        String httpArg = "citypinyin=beijing";
+
       //  String response= Connection.request(httpUrl, httpArg);
-        al=new ArrayList<HashMap>();
+        weatherList=new ArrayList<HashMap>();
         new Thread(runnable).start();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -54,17 +55,18 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle data = msg.getData();
-            String val = data.getString("value");
+            String jasonString = data.getString("value");
+            WeatherBean weatherBean =JsonHelper.ParseJson(jasonString);
             for(int i=0;i<50;i++)
             {
                 HashMap<String , String> map = new HashMap<String , String>();
-                map.put("date" , i+val+"date");
-                map.put("weather" , i+"weather");
-                map.put("temp" , i+"temp");
-                map.put("WD" , i+"WD");
-                al.add(map);
+                map.put("date" , "日期："+ weatherBean.getDate());
+                map.put("weather" , "天气："+ weatherBean.getWeather());
+                map.put("temp" , "气温："+ weatherBean.getTemp());
+                map.put("WD" , "风向："+ weatherBean.getWD());
+                weatherList.add(map);
             }
-            RecyclerView.Adapter mAdapter = new MyAdapter(al,mcontext,new MyAdapter.OnItemClickListener() {
+            RecyclerView.Adapter mAdapter = new MyAdapter(weatherList,mcontext,new MyAdapter.OnItemClickListener() {
 
                 @Override
 
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             // TODO: http request.
             Message msg = new Message();
             Bundle data = new Bundle();
-            String response= Connection.request("", "");
+            String response= Connection.request(httpUrl, httpArg);
             data.putString("value",response);
             msg.setData(data);
             handler.sendMessage(msg);
