@@ -1,15 +1,16 @@
 package com.example.administrator.recyclerviewtest;
 
+import android.os.Bundle;
+import android.os.Message;
+
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 /**
  * Created by Administrator on 2016/3/20.
  */
@@ -19,6 +20,7 @@ public class Connection {
    // System.out.println(jsonResult);
 
     /**
+     * 同步请求
      * @param urlAll
      *            :请求接口
      * @param httpArg
@@ -26,12 +28,8 @@ public class Connection {
      * @return 返回结果
      */
     public static String request(String httpUrl, String httpArg) {
-        BufferedReader reader = null;
         String result = null;
-        StringBuffer sbf = new StringBuffer();
         httpUrl = httpUrl + "?" + httpArg;
-
-
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -42,7 +40,8 @@ public class Connection {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-            result=response.body().string()+"";
+            result=response.body().string();
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }

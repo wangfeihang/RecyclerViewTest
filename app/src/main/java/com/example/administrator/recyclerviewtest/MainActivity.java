@@ -13,6 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    Handler handler = new Handler(){
+    public Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -83,17 +89,35 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+    //异步请求
     Runnable runnable = new Runnable(){
         @Override
         public void run() {
             // TODO: http request.
-            Message msg = new Message();
-            Bundle data = new Bundle();
-            String response= Connection.request(httpUrl, httpArg);
-            data.putString("value",response);
-            msg.setData(data);
-            handler.sendMessage(msg);
+            httpUrl = httpUrl + "?" + httpArg;
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(httpUrl)
+                    .header("apikey", "b7c0e80f7e2a8767a3886952c632ed79")
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    e.printStackTrace();
+                }
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                    Message msg = new Message();
+                    Bundle data = new Bundle();
+                    String result=response.body().string()+"";
+                    data.putString("value",result);
+                    msg.setData(data);
+                    handler.sendMessage(msg);
+                }
+            });
         }
     };
 
