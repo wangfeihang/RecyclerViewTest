@@ -64,16 +64,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context c1) {
-        this(myDataset,c1, null, null);
+    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext) {
+        this(myDataset,mcontext, null, null);
     }
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context c1, OnItemClickListener onClickListener) {
-        this(myDataset,c1, onClickListener, null);
+    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext, OnItemClickListener onClickListener) {
+        this(myDataset,mcontext, onClickListener, null);
     }
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context c1, OnItemClickListener onClickListener,
+    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext, OnItemClickListener onClickListener,
                      OnItemLongClickListener onLongClickListener) {
-        mDataset = myDataset;
-        mcontext = c1;
+        this.mDataset = myDataset;
+        this.mcontext = mcontext;
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
     }
@@ -102,16 +102,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-
-
-
-
         View v=holder.v;
         Item item=new Item(v);
-        item.tv_date.setText((String)mDataset.get(position).get("date"));
-        item.tv_weather.setText((String)mDataset.get(position).get("weather"));
-        item.tv_temp.setText((String)mDataset.get(position).get("temp"));
-        item.tv_WD.setText((String)mDataset.get(position).get("WD"));
+        item.setItemData(mDataset,position);
     }
 
 

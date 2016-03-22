@@ -14,8 +14,7 @@ import java.net.URL;
  * Created by Administrator on 2016/3/20.
  */
 public class Connection {
-    String httpUrl = "http://apis.baidu.com/apistore/weatherservice/weather";
-    String httpArg = "citypinyin=beijing";
+
   //  String jsonResult = request(httpUrl, httpArg);
    // System.out.println(jsonResult);
 

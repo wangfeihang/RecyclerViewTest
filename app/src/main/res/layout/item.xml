@@ -50,7 +50,8 @@
         android:layout_height="30dp"
         android:layout_width="30dp"
         android:layout_alignTop="@+id/tv_WD"
-        android:layout_alignLeft="@id/tv_temp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
         android:background="@drawable/star"
         />
 </RelativeLayout>

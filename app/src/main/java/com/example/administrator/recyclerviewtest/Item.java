@@ -7,6 +7,9 @@ package com.example.administrator.recyclerviewtest;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by Administrator on 2016/3/18.
  */
@@ -27,6 +30,16 @@ public class Item {
         tv_weather=(TextView)v.findViewById(R.id.tv_weather);
         tv_temp=(TextView)v.findViewById(R.id.tv_temp);
         tv_WD=(TextView)v.findViewById(R.id.tv_WD);
+
+    }
+    public void setItemData(ArrayList<HashMap> mDataset,int position)
+    {
+        if(position<mDataset.size()) {
+            tv_date.setText((String) mDataset.get(position).get("date"));
+            tv_weather.setText((String) mDataset.get(position).get("weather"));
+            tv_temp.setText((String) mDataset.get(position).get("temp"));
+            tv_WD.setText((String) mDataset.get(position).get("WD"));
+        }
 
     }
 }
