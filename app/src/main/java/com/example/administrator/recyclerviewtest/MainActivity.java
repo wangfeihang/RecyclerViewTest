@@ -30,11 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //初始化数据
-
-
-
-      //  String response= Connection.request(httpUrl, httpArg);
         weatherList=new ArrayList<HashMap>();
         new Thread(runnable).start();
 
@@ -42,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-    //    mAdapter = new MyAdapter(al,this);
-
-
         mRecyclerView.addItemDecoration(new ItemDivider(this,
                 ItemDivider.VERTICAL_LIST));
         mAdapter = new MyAdapter(weatherList,mcontext,new MyAdapter.OnItemClickListener() {

@@ -12,19 +12,25 @@ import java.util.List;
  */
 public class JsonHelper {
 
+
+    /**
+     * @param jsonString
+     *            :单日获得的json字符串
+     * @return 返回结果
+     */
     public static WeatherBean ParseJson(String jsonString) {
 
-        JSONObject jb = null;
+        JSONObject jsonObject = null;
         String errMsg;
         try {
-            jb = new JSONObject(jsonString);
+            jsonObject = new JSONObject(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         JSONObject jbData = null;
         try {
-            jbData = jb.getJSONObject("retData");
+            jbData = jsonObject.getJSONObject("retData");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -41,6 +47,12 @@ public class JsonHelper {
         return weatherBean;
 
     }
+
+    /**
+     * @param jsonString
+     *            :多日获得的json字符串
+     * @return 返回结果
+     */
     public static List<WeatherBean> ParseRecentWeathersJson(String jsonString)
     {
         List<WeatherBean> weatherBeanList=new ArrayList<WeatherBean>();
