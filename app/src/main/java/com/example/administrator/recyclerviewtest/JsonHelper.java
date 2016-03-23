@@ -12,7 +12,7 @@ public class JsonHelper {
 
 
 
-    public static Object toObject(String jsonString,Class mclass)
+    public static <T>T toObject(String jsonString,Class<T> mclass)
     {
         Gson gson=new Gson();
         return gson.fromJson(jsonString, mclass);
@@ -25,7 +25,7 @@ public class JsonHelper {
     public static List<FHBean> toRecentWeathersBean(String jsonString)
     {
         List<FHBean> weatherBeanList=new ArrayList<FHBean>();
-        RecentWeathersBean recentWeathersBean = (RecentWeathersBean)toObject(jsonString, RecentWeathersBean.class);
+        RecentWeathersBean recentWeathersBean = toObject(jsonString, RecentWeathersBean.class);
         ReturnData returnData=recentWeathersBean.getReturnData();
         FHBean today=returnData.getToday();
         List<FHBean>  forecast=returnData.getForecast();
