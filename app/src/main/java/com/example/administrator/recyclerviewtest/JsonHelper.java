@@ -1,8 +1,6 @@
 package com.example.administrator.recyclerviewtest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,39 +11,18 @@ import java.util.List;
 public class JsonHelper {
 
 
+
     /**
      * @param jsonString
      *            :单日获得的json字符串
      * @return 返回结果
      */
-    public static WeatherBean ParseJson(String jsonString) {
+    public static SingleDayReturnData toSingleDayWeatherBean(String jsonString) {
 
-        JSONObject jsonObject = null;
-        String errMsg;
-        try {
-            jsonObject = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject jbData = null;
-        try {
-            jbData = jsonObject.getJSONObject("retData");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        WeatherBean weatherBean = new WeatherBean();
-        try {
-            weatherBean.setDate(jbData.getString("date"));
-            weatherBean.setWeather(jbData.getString("weather"));
-            weatherBean.setTemp(jbData.getString("temp"));
-            weatherBean.setWD(jbData.getString("WD"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return weatherBean;
-
+        Gson gson=new Gson();
+        SingleDayWeatherBean singleDayWeatherBean = gson.fromJson(jsonString, SingleDayWeatherBean.class);
+        SingleDayReturnData singleDayReturnData = singleDayWeatherBean.getRetData();
+        return singleDayReturnData;
     }
 
     /**
@@ -53,61 +30,25 @@ public class JsonHelper {
      *            :多日获得的json字符串
      * @return 返回结果
      */
-    public static List<WeatherBean> ParseRecentWeathersJson(String jsonString)
+    public static List<FHBean> toRecentWeathersBean(String jsonString)
     {
-        List<WeatherBean> weatherBeanList=new ArrayList<WeatherBean>();
-        JSONObject jsonObject = null;
-        JSONObject jsonObjectData = null;
-        JSONObject todayJsonObject=null;
-        JSONArray forecastJsonArray = null;
-        JSONArray historyJsonArray = null;
-        String errMsg;
-        try {
-            jsonObject = new JSONObject(jsonString);
-            jsonObjectData=jsonObject.getJSONObject("retData");
-            todayJsonObject=jsonObjectData.getJSONObject("today");
-            forecastJsonArray= jsonObjectData.getJSONArray("forecast");
-            historyJsonArray = jsonObjectData.getJSONArray("history");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        for(int i=0;i<historyJsonArray.length();i++)
+        List<FHBean> weatherBeanList=new ArrayList<FHBean>();
+        Gson gson=new Gson();
+        RecentWeathersBean recentWeathersBean = gson.fromJson(jsonString, RecentWeathersBean.class);
+        ReturnData returnData=recentWeathersBean.getReturnData();
+        FHBean today=returnData.getToday();
+        List<FHBean>  forecast=returnData.getForecast();
+        List<FHBean> history=returnData.getHistory();
+        for(int i=0;i<history.size();i++)
         {
-            try {
-                JSONObject jbData=historyJsonArray.getJSONObject(i);
-                weatherBeanList.add(getWeatherBean(jbData));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            weatherBeanList.add(history.get(i));
         }
-        weatherBeanList.add(getWeatherBean(todayJsonObject));
-        for(int i=0;i<forecastJsonArray.length();i++)
+        weatherBeanList.add(today);
+        for(int i=0;i<forecast.size();i++)
         {
-            try {
-                JSONObject jbData=forecastJsonArray.getJSONObject(i);
-                weatherBeanList.add(getWeatherBean(jbData));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            weatherBeanList.add(forecast.get(i));
         }
-
         return weatherBeanList;
-
-
-    }
-    public static WeatherBean getWeatherBean(JSONObject jbData)
-    {
-        WeatherBean weatherBean = new WeatherBean();
-        try {
-            weatherBean.setDate(jbData.getString("date"));
-            weatherBean.setWeather(jbData.getString("type"));
-            weatherBean.setTemp(jbData.getString("hightemp"));
-            weatherBean.setWD(jbData.getString("fengxiang"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return weatherBean;
 
     }
 }

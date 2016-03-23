@@ -16,8 +16,6 @@ import java.io.IOException;
  */
 public class Connection {
 
-  //  String jsonResult = request(httpUrl, httpArg);
-   // System.out.println(jsonResult);
 
     /**
      * 同步请求
@@ -30,13 +28,11 @@ public class Connection {
     public static String request(String httpUrl, String httpArg) {
         String result = null;
         httpUrl = httpUrl + "?" + httpArg;
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(httpUrl)
                 .header("apikey", "b7c0e80f7e2a8767a3886952c632ed79")
                 .build();
-
         Response response = null;
         try {
             response = client.newCall(request).execute();
@@ -45,8 +41,6 @@ public class Connection {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-
         return result;
     }
-
 }

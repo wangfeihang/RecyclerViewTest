@@ -3,7 +3,7 @@ package com.example.administrator.recyclerviewtest;
 /**
  * Created by Administrator on 2016/3/21.
  */
-public class WeatherBean {
+public class SingleDayReturnData {
     private String city;
     private String pinyin;
     private String citycode;
@@ -16,7 +16,9 @@ public class WeatherBean {
     private String weather;
     private String temp;
     private String l_tmp;
+
     private String h_tmp;
+
     private String WD;
     private String WS;
     private String sunrise;

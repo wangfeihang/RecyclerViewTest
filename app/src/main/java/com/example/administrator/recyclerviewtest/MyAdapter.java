@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
    // private String[] mDataset;
@@ -16,11 +17,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     interface OnItemClickListener {
         void onClick(View v);
     }
-
     interface OnItemLongClickListener {
         void onLongClick(View v);
     }
-
     private OnItemClickListener onClickListener;
     private OnItemLongClickListener onLongClickListener;
 
@@ -30,7 +29,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-
         public View v;
         public ViewHolder(View itemLayoutView,
                           final OnItemClickListener onClickListener,
@@ -58,21 +56,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             });
         }
 
-
-
-
     }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext) {
-        this(myDataset,mcontext, null, null);
+    public void setd(String j) {
+        HashMap<String , String> map = new HashMap<String , String>();
+        map.put("date" , "日期："+j);
+        map.put("weather" , "天气：");
+        map.put("hightemp" , "气温：");
+        map.put("fengxiang", "风向：" );
+        mDataset.add(map);
     }
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext, OnItemClickListener onClickListener) {
-        this(myDataset,mcontext, onClickListener, null);
+    public void setData(List<FHBean> dataSet){
+        for(int i=0;i<dataSet.size();i++)
+        {
+            HashMap<String , String> map = new HashMap<String , String>();
+            map.put("date" , "日期："+ dataSet.get(i).getDate());
+            map.put("weather" , "天气："+ dataSet.get(i).getType());
+            map.put("hightemp" , "气温："+ dataSet.get(i).getHighTemp());
+            map.put("fengxiang", "风向：" + dataSet.get(i).getFengxiang());
+            mDataset.add(map);
+        }
     }
-    public MyAdapter(ArrayList<HashMap>  myDataset,Context mcontext, OnItemClickListener onClickListener,
+    public MyAdapter(Context mcontext) {
+        this( null, null);
+    }
+    public MyAdapter(Context mcontext, OnItemClickListener onClickListener) {
+        this(mcontext, onClickListener, null);
+    }
+    public MyAdapter(Context mcontext, OnItemClickListener onClickListener,
                      OnItemLongClickListener onLongClickListener) {
-        this.mDataset = myDataset;
+        mDataset=new ArrayList<HashMap>();
         this.mcontext = mcontext;
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
@@ -85,18 +97,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item, parent, false);
-        // set the view's size, margins, paddings and item parameters
         ViewHolder vh = new ViewHolder(v, onClickListener,
                 onLongClickListener);
-
-
         return vh;
     }
-
-
-
-
-
     // Replace the contents of a view (invoked by the item manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -106,15 +110,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         Item item=new Item(v);
         item.setItemData(mDataset,position);
     }
-
-
-
     // Return the size of your dataset (invoked by the item manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
-
-
-
 }

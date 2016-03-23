@@ -24,7 +24,7 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <TextView
-        android:id="@+id/tv_WD"
+        android:id="@+id/tv_fengxiang"
         android:layout_below="@+id/tv_weather"
         android:layout_alignLeft="@+id/tv_weather"
         android:layout_marginTop="10dp"
@@ -36,7 +36,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/tv_temp"
+        android:id="@+id/tv_hightemp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/tv_date"
@@ -46,10 +46,10 @@
         android:text="10"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <ImageButton
-        android:id="@+id/ib_star"
+        android:id="@+id/im_star"
         android:layout_height="30dp"
         android:layout_width="30dp"
-        android:layout_alignTop="@+id/tv_WD"
+        android:layout_alignTop="@+id/tv_fengxiang"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:background="@drawable/star"

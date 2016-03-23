@@ -14,31 +14,33 @@ import java.util.HashMap;
  * Created by Administrator on 2016/3/18.
  */
 public class Item {
-    public TextView tv_date;//日期
-    public TextView tv_weather;//天气
-    public TextView tv_temp;//气温
-    public TextView tv_l_tmp; //最低气温
-    public TextView tv_h_tmp; //最高气温
-    public TextView tv_WD; 	 //风向
-    public TextView tv_WS;  //风力
+    public TextView dateTv;//日期
+    public TextView weatherTv;//天气
+    public TextView highTempTv;//气温
+    public TextView lTmpTv; //最低气温
+    public TextView hTmpTv; //最高气温
+    public TextView fengxiangTv; 	 //风向
+    public TextView WSTv;  //风力
 
 
 
     public  Item(View v)
     {
-        tv_date=(TextView)v.findViewById(R.id.tv_date);
-        tv_weather=(TextView)v.findViewById(R.id.tv_weather);
-        tv_temp=(TextView)v.findViewById(R.id.tv_temp);
-        tv_WD=(TextView)v.findViewById(R.id.tv_WD);
+        dateTv=(TextView)v.findViewById(R.id.tv_date);
+        weatherTv=(TextView)v.findViewById(R.id.tv_weather);
+        highTempTv=(TextView)v.findViewById(R.id.tv_hightemp);
+        fengxiangTv=(TextView)v.findViewById(R.id.tv_fengxiang);
 
     }
     public void setItemData(ArrayList<HashMap> mDataset,int position)
     {
         if(position<mDataset.size()) {
-            tv_date.setText((String) mDataset.get(position).get("date"));
-            tv_weather.setText((String) mDataset.get(position).get("weather"));
-            tv_temp.setText((String) mDataset.get(position).get("temp"));
-            tv_WD.setText((String) mDataset.get(position).get("WD"));
+            dateTv.setText((String) mDataset.get(position).get("date"));
+            weatherTv.setText((String) mDataset.get(position).get("weather"));
+            highTempTv.setText((String) mDataset.get(position).get("hightemp"));
+            fengxiangTv.setText((String) mDataset.get(position).get("fengxiang"));
+
+
         }
 
     }
