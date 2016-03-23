@@ -1,8 +1,12 @@
 package com.example.administrator.recyclerviewtest;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
 import java.io.IOException;
 
 /**
@@ -29,8 +33,13 @@ public class HttpUtils {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 }
-                String result=response.body().string()+"";
-                callback.onRequestSuccess(result);
+                final String result = response.body().string() + "";
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        callback.onRequestSuccess(result);
+                    }
+                });
+
             }
         });
     }

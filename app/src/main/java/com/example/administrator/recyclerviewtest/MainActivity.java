@@ -33,14 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRequestSuccess(String json) {
                 List<FHBean> weatherBeanList =JsonHelper.toRecentWeathersBean(json);
                 mAdapter.setData(weatherBeanList);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-
-                    }
-                });
-
+               mAdapter.notifyDataSetChanged();
             }
         });
         mLayoutManager=new LinearLayoutManager(this);
