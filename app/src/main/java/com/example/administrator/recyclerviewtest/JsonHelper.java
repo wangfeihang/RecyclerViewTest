@@ -1,6 +1,7 @@
 package com.example.administrator.recyclerviewtest;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,16 @@ public class JsonHelper {
      *            :多日获得的json字符串
      * @return 返回结果
      */
+    public static <T> List<T> toObjectList(String jsonString,Class<T> mclass)
+    {
+        // json转为带泛型的list
+        Gson gson=new Gson();
+        List<T> objectList = gson.fromJson(jsonString,
+            new TypeToken<List<T>>() {
+        }.getType());
+        return objectList;
+    }
+
     public static List<FHBean> toRecentWeathersBean(String jsonString)
     {
         List<FHBean> weatherBeanList=new ArrayList<FHBean>();
@@ -30,15 +41,9 @@ public class JsonHelper {
         FHBean today=returnData.getToday();
         List<FHBean>  forecast=returnData.getForecast();
         List<FHBean> history=returnData.getHistory();
-        for(int i=0;i<history.size();i++)
-        {
-            weatherBeanList.add(history.get(i));
-        }
+        weatherBeanList.addAll(history);
         weatherBeanList.add(today);
-        for(int i=0;i<forecast.size();i++)
-        {
-            weatherBeanList.add(forecast.get(i));
-        }
+        weatherBeanList.addAll(forecast);
         return weatherBeanList;
 
     }
