@@ -12,19 +12,11 @@ public class JsonHelper {
 
 
 
-    /**
-     * @param jsonString
-     *            :单日获得的json字符串
-     * @return 返回结果
-     */
-    public static SingleDayReturnData toSingleDayWeatherBean(String jsonString) {
-
+    public static Object toObject(String jsonString,Class mclass)
+    {
         Gson gson=new Gson();
-        SingleDayWeatherBean singleDayWeatherBean = gson.fromJson(jsonString, SingleDayWeatherBean.class);
-        SingleDayReturnData singleDayReturnData = singleDayWeatherBean.getRetData();
-        return singleDayReturnData;
+        return gson.fromJson(jsonString, mclass);
     }
-
     /**
      * @param jsonString
      *            :多日获得的json字符串
@@ -33,8 +25,7 @@ public class JsonHelper {
     public static List<FHBean> toRecentWeathersBean(String jsonString)
     {
         List<FHBean> weatherBeanList=new ArrayList<FHBean>();
-        Gson gson=new Gson();
-        RecentWeathersBean recentWeathersBean = gson.fromJson(jsonString, RecentWeathersBean.class);
+        RecentWeathersBean recentWeathersBean = (RecentWeathersBean)toObject(jsonString, RecentWeathersBean.class);
         ReturnData returnData=recentWeathersBean.getReturnData();
         FHBean today=returnData.getToday();
         List<FHBean>  forecast=returnData.getForecast();
