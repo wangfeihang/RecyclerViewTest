@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.request(httpUrl + "?" + httpArg, new HttpUtils.Callback() {
             @Override
             public void onRequestSuccess(String json) {
-                List<FHBean> weatherBeanList =JsonHelper.toRecentWeathersBean(json);
+                List<FHBean> weatherBeanList = JsonHelper.toRecentWeathersBean(json);
                 mAdapter.setData(weatherBeanList);
-               mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
         });
         mLayoutManager=new LinearLayoutManager(this);
